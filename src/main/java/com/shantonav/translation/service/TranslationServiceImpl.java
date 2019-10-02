@@ -1,5 +1,9 @@
 package com.shantonav.translation.service;
 
+import com.shantonav.translation.reader.file.ReadBaseLocalePropertyFIle;
+import com.shantonav.translation.util.ApplicationConstants;
+
+import java.io.IOException;
 import java.util.Enumeration;
 import java.util.Locale;
 import java.util.Properties;
@@ -12,15 +16,43 @@ public class TranslationServiceImpl implements  TranslationService {
         this.baseLocale = baseLocale;
     }
 
-    public Properties getTranslatedPropertiesFor(final Properties properties, final Locale targetLocale) {
+    public Properties getTranslatedPropertiesFor(final Properties baseProperties, final Locale targetLocale) {
         Properties transLatedProperties = new Properties();
 
-        Enumeration<Object> propertyKeys = properties.keys();
+        Properties targetProperties = null;
+        try {
+            targetProperties = new ReadBaseLocalePropertyFIle().readPropertiesFrom(targetLocale);
+        } catch (IOException e) {
+            throw new IllegalStateException("Base property not found or could not be read properly for "+targetLocale);
+        }
 
-        while ( propertyKeys.hasMoreElements() ){
-            String propertyKey = (String ) propertyKeys.nextElement();
+        if ( targetProperties != null) {
+            Enumeration<Object> propertyKeys = baseProperties.keys();
+            StringBuilder stringBuilder = new StringBuilder();
+            boolean isThereSomethingToTranslate = false;
 
-            transLatedProperties.put(propertyKey, new  GoogleTranslateService( (String )properties.get(propertyKey), baseLocale, targetLocale).translate() );
+            while (propertyKeys.hasMoreElements()) {
+                String propertyKey = (String) propertyKeys.nextElement();
+
+                if (!targetProperties.containsKey(propertyKey)) {
+
+                    transLatedProperties.put(propertyKey, new GoogleTranslateService((String) baseProperties.get(propertyKey), baseLocale, targetLocale).translate());
+                    if (!isThereSomethingToTranslate) {
+                        stringBuilder.append("Properties for ==================:" + targetLocale + "\n");
+                        isThereSomethingToTranslate = true;
+                    }
+                    stringBuilder.append(propertyKey)
+                            .append(ApplicationConstants.PROPERTY_SEPARATOR)
+                            .append(transLatedProperties.getProperty(propertyKey))
+                            .append("\n");
+                }else{
+                    transLatedProperties.put(propertyKey, targetProperties.getProperty(propertyKey));
+                }
+            }
+            if (isThereSomethingToTranslate) {
+                stringBuilder.append("End of properties for ==================:" + targetLocale + "\n");
+            }
+            System.out.println(stringBuilder.toString());
         }
 
 

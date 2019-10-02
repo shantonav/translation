@@ -1,7 +1,11 @@
 package com.shantonav.translation.service;
 
-import com.google.api.translate.Language;
-import com.google.api.translate.Translate;
+
+
+import com.google.api.client.googleapis.json.GoogleJsonResponseException;
+import com.google.cloud.translate.Translate;
+import com.google.cloud.translate.TranslateOptions;
+import com.google.cloud.translate.Translation;
 
 import java.util.Locale;
 
@@ -17,13 +21,24 @@ public class GoogleTranslateService {
     }
 
     public String translate(){
-        Translate.setHttpReferrer("http://www.example.com");
+
+        // Instantiates a client
+        Translate translate = TranslateOptions.getDefaultInstance().getService();
+
         try {
-           return  Translate.execute(this.text, Language.fromString(this.sourceLocale.getLanguage()), Language.fromString(this.targetLocale.getLanguage()) );
-        } catch (Exception e) {
-            return "COULD_NOT_TRANSLATE";
+            Translation translation =
+                    translate.translate(
+                            this.text,
+                            Translate.TranslateOption.sourceLanguage(this.sourceLocale.getLanguage()),
+                            Translate.TranslateOption.targetLanguage(this.targetLocale.getLanguage()));
+            return translation.getTranslatedText();
+        }catch(Exception ex){
+            ex.printStackTrace();
+            System.out.println("Google API ERROR :"+ex.getLocalizedMessage()+" for text="+text+" source lang= "
+                    +this.sourceLocale.getLanguage()+" target lang="+this.targetLocale.getLanguage());
         }
 
+        return "TRANSLATION_ERROR";
 
     }
 }

@@ -15,14 +15,15 @@ public class PropertyFileWriter {
 
         String propertiesText = TranslationUtil.convertToPropertiesText(newProperties);
 
-        String newPropertyFileName =    ApplicationConstants.BASE_PATH_OF_NEW_PROPERTY +
-                                        ApplicationConstants.BASE_PROPERTY_PREFIX +
+        String targetPropertyFileName = ApplicationConstants.PATH_OF_NEW_PROPERTY +
+                                        ApplicationConstants.PROPERTY_PREFIX +
                                         locale +
-                                        ApplicationConstants.BASE_PROPERTY_PREFIX;
+                                        ApplicationConstants.PROPERTY_SUFFIX;
 
 
-        BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(newPropertyFileName));
+        BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(targetPropertyFileName));
 
+        bufferedWriter.newLine();
         bufferedWriter.write(propertiesText);
         bufferedWriter.close();
     }

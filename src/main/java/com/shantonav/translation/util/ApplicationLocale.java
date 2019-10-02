@@ -3,7 +3,7 @@ package com.shantonav.translation.util;
 public enum ApplicationLocale {
     PT_PT("pt_PT"),
     EN_UK("en_UK"),
-    NB_NO("nb_NO"),
+    NO_NO("no_NO"),
     NL_NL("nl_NL"),
     FR_FR("fr_FR"),
     DE_DE("de_DE"),

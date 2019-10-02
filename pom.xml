@@ -10,11 +10,10 @@
 
 
     <dependencies>
-        <!-- https://mvnrepository.com/artifact/com.googlecode/google-api-translate-java -->
         <dependency>
-            <groupId>com.googlecode</groupId>
-            <artifactId>google-api-translate-java</artifactId>
-            <version>0.92</version>
+            <groupId>com.google.cloud</groupId>
+            <artifactId>google-cloud-translate</artifactId>
+            <version>1.90.0</version>
         </dependency>
         <!-- https://mvnrepository.com/artifact/junit/junit -->
         <dependency>
@@ -23,6 +22,14 @@
             <version>4.12</version>
             <scope>test</scope>
         </dependency>
+
+        <!-- https://mvnrepository.com/artifact/commons-io/commons-io -->
+        <dependency>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
+            <version>2.6</version>
+        </dependency>
+
 
     </dependencies>
 </project>

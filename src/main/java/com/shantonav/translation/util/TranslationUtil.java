@@ -11,7 +11,7 @@ public class TranslationUtil {
         while ( propertyKeys.hasMoreElements() ){
             String propertyKey = (String)propertyKeys.nextElement();
             sb.append(propertyKey)
-                    .append(ApplicationConstants.PROPERTY_SEPERATOR)
+                    .append(ApplicationConstants.PROPERTY_SEPARATOR)
                     .append(properties.getProperty(propertyKey))
                     .append("\n");
         }
