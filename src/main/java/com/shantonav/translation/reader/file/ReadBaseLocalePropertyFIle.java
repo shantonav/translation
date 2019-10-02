@@ -21,7 +21,14 @@ public class ReadBaseLocalePropertyFIle {
             if (is == null) {
                 System.out.println("Property file could not be read " + propertiesFileName);
             }else{
-                basePropery.load(is);
+                try ( BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(new FileInputStream(propertyFile), "UTF-8")) ) {
+                    String line;
+                    while ((line = bufferedReader.readLine()) != null) {
+                        String[] propertyTokens = line.split(ApplicationConstants.PROPERTY_SEPARATOR);
+                        basePropery.put(propertyTokens[0], propertyTokens[1]);
+                    }
+                }
+
             }
 
         }else{

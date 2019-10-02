@@ -37,7 +37,7 @@ public class PropertyWithLocaleServiceImpl implements PropertyWithLocaleService 
 
         if ( baseProperties != null) {
             for (ApplicationLocale aLocale : ApplicationLocale.values()) {
-                if (!baseLocale.equals(aLocale)) {
+                if (! baseLocale.getLanguage().equals(aLocale.getLanguage())) {
                     Locale targetLocale = new Locale(aLocale.getLanguage(), aLocale.getCountry());
                     Properties newTranslated = translationService.getTranslatedPropertiesFor(baseProperties, targetLocale);
                     try {
