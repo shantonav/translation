@@ -30,7 +30,8 @@ public class GoogleTranslateService {
                     translate.translate(
                             this.text,
                             Translate.TranslateOption.sourceLanguage(this.sourceLocale.getLanguage()),
-                            Translate.TranslateOption.targetLanguage(this.targetLocale.getLanguage()));
+                            Translate.TranslateOption.targetLanguage(this.targetLocale.getLanguage()),
+                            Translate.TranslateOption.format("text"));
             return translation.getTranslatedText();
         }catch(Exception ex){
             ex.printStackTrace();
